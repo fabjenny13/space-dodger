@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacle: {fileID: 1400979771504340440, guid: d6dfe80ea5aadd84a877fc546a7f99c2, type: 3}
   spawnStyle: 2
-  speed: 3
+  speed: 2
   playerTransform: {fileID: 1900199015}
   bounds: {fileID: 153450930}
 --- !u!4 &98161231
@@ -487,7 +487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &530877823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,8 +501,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 1277357585987317881, guid: eed5bae4d71f6934ca86c1a277b59010, type: 3}
-  spawnStyle: 1
-  speed: 2
+  spawnStyle: 3
+  speed: 1
   playerTransform: {fileID: 1900199015}
   bounds: {fileID: 153450930}
 --- !u!4 &530877824

@@ -3,6 +3,8 @@ using System.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class SpawnObstacle : MonoBehaviour
 {
@@ -25,9 +27,11 @@ public class SpawnObstacle : MonoBehaviour
         bottomBound = bounds.position.y - bounds.localScale.y / 2.0f;
 
         if (spawnStyle == 1)
-            InvokeRepeating("SpawnStyle1", 1, 0.5f);
+            InvokeRepeating("SpawnStyle1", 1, 0.7f);
         else if (spawnStyle == 2)
             InvokeRepeating("SpawnStyle2", 2, 10f);
+        else if (spawnStyle == 3)
+            InvokeRepeating("SpawnStyle3", 3, 15f);
     }
 
     void SpawnStyle1()
@@ -123,6 +127,51 @@ public class SpawnObstacle : MonoBehaviour
         if (FindFirstObjectByType<Rocket>().isGameOver)
         {
             CancelInvoke("SpawnStyle2");
+        }
+    }
+
+    void SpawnStyle3()
+    {
+        float displacement = ((rightBound - leftBound) / 10);
+
+        for(int i = 0; i < 10; i++)
+        {
+            GameObject newObstacle = Instantiate(obstacle);
+
+            Vector2 position, velocity;
+
+            switch (currSide)
+            {
+                case 0:
+                    position = new Vector2(leftBound  + i * displacement, topBound);
+                    velocity = new Vector2(0, -speed);
+                    break;              
+                case 1:                  
+                    position = new Vector2(leftBound + i * displacement, bottomBound);
+                    velocity = new Vector2(0, speed);
+                    break;               
+                case 2:                  
+                    position = new Vector2(leftBound, bottomBound + i * displacement);
+                    velocity = new Vector2(speed, 0);
+                    break;               
+                case 3:                  
+                    position = new Vector2(rightBound,bottomBound + i * displacement);
+                    velocity = new Vector2(-speed, 0);
+                    break;               
+                default:                 
+                    position = new Vector2(leftBound, i * displacement);
+                    velocity = new Vector2(speed, 0);
+                    break;
+
+            }
+
+            newObstacle.GetComponent<Obstacle>().setLocation(position);
+            newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
+        }
+
+        if (FindFirstObjectByType<Rocket>().isGameOver)
+        {
+            CancelInvoke("SpawnStyle3");
         }
     }
 }
