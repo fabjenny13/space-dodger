@@ -148,10 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9dc371b866c9f4c802b33268ddd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 3
-  spawnDelay: 0.6
-  obstacle: {fileID: 5365430673740321400, guid: 4a25416ecc4131149a2e1819ee19cd01, type: 3}
+  obstacle: {fileID: 1400979771504340440, guid: d6dfe80ea5aadd84a877fc546a7f99c2, type: 3}
+  spawnStyle: 2
+  speed: 3
   playerTransform: {fileID: 1900199015}
+  bounds: {fileID: 153450930}
 --- !u!4 &98161231
 Transform:
   m_ObjectHideFlags: 0
@@ -247,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153450928}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 16, y: 16, z: 1}
   m_ConstrainProportionsScale: 0
@@ -486,7 +487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &530877823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,10 +500,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9dc371b866c9f4c802b33268ddd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 2
-  spawnDelay: 0.8
   obstacle: {fileID: 1277357585987317881, guid: eed5bae4d71f6934ca86c1a277b59010, type: 3}
+  spawnStyle: 1
+  speed: 2
   playerTransform: {fileID: 1900199015}
+  bounds: {fileID: 153450930}
 --- !u!4 &530877824
 Transform:
   m_ObjectHideFlags: 0
@@ -959,10 +961,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9dc371b866c9f4c802b33268ddd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 1
-  spawnDelay: 0.5
   obstacle: {fileID: 2676143116229491649, guid: 4b4137a1d55c2954b8ad958b69ffa029, type: 3}
+  spawnStyle: 1
+  speed: 3
   playerTransform: {fileID: 1900199015}
+  bounds: {fileID: 153450930}
 --- !u!4 &1179757192
 Transform:
   m_ObjectHideFlags: 0

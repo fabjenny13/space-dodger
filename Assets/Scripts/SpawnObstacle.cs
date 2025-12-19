@@ -6,32 +6,31 @@ using UnityEngine;
 
 public class SpawnObstacle : MonoBehaviour
 {
-    [SerializeField]
-    float spawnTime;
-    [SerializeField]
-    float spawnDelay;
+    [SerializeField] private GameObject obstacle;
+    [SerializeField] private int spawnStyle;
+    [SerializeField] float speed;
+    [SerializeField] Transform playerTransform;
+    [SerializeField] Transform bounds;
 
-    float leftBound, rightBound, topBound, bottomBound;
-
-    [SerializeField]
-    private GameObject obstacle;
-    [SerializeField]
-    Transform playerTransform;
+    private float leftBound, rightBound, topBound, bottomBound;
+    private int currSide = 0;
 
 
-    int currSide = 0;
 
     void Start()
     {
-        leftBound = -8f;
-        rightBound = 8f;
-        topBound = 8f;
-        bottomBound = -8f;
+        leftBound = bounds.position.x - bounds.localScale.x/2.0f;
+        rightBound = bounds.position.x + bounds.localScale.x / 2.0f;
+        topBound = bounds.position.y + bounds.localScale.y / 2.0f;
+        bottomBound = bounds.position.y - bounds.localScale.y / 2.0f;
 
-        InvokeRepeating("SpawnObstacles", spawnTime, spawnDelay);
+        if (spawnStyle == 1)
+            InvokeRepeating("SpawnStyle1", 1, 0.5f);
+        else if (spawnStyle == 2)
+            InvokeRepeating("SpawnStyle2", 2, 10f);
     }
 
-    void SpawnObstacles()
+    void SpawnStyle1()
     {
             //x - m * xp + c  
 
@@ -82,18 +81,48 @@ public class SpawnObstacle : MonoBehaviour
                 horizontal = leftBound;
             }
 
-/*            Vector3 directionToPlayer = playerTransform.position - position;
-            Vector3 normalizedDirection = directionToPlayer.normalized;
-            Vector3 targetVelocity = normalizedDirection * velocity.magnitude;
+        Vector3 directionToPlayer = playerTransform.position - position;
+        Vector3 normalizedDirection = directionToPlayer.normalized;
+        Vector3 targetVelocity = normalizedDirection * velocity.magnitude;
 
-*/            
+
+        GameObject newObstacle = Instantiate(obstacle);
+
+            newObstacle.GetComponent<Obstacle>().setLocation(position);
+            newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
+
+
+        if(FindFirstObjectByType<Rocket>().isGameOver)
+        {
+            CancelInvoke("SpawnStyle1");
+        }
+    }
+
+    void SpawnStyle2()
+    {
+        //circle style!
+        float angleBetween = 36.0f;
+        float radius = (rightBound - leftBound) / 2 - 2;
+        Vector2 center = bounds.position;
+        for (int i = 0; i < 10; i++)
+        {
+
+            Vector2 position = new Vector2(radius * Mathf.Cos(i * angleBetween), radius * Mathf.Sin(i * angleBetween));
+            Vector3 direction = center - position;
+            Vector3 targetVelocity = direction.normalized * speed;
+
+            Debug.Log(targetVelocity);
+
             GameObject newObstacle = Instantiate(obstacle);
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
-            newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
-        if (playerTransform.gameObject.GetComponent<Rocket>().isGameOver)
+            newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
+        }
+
+
+        if (FindFirstObjectByType<Rocket>().isGameOver)
         {
-            CancelInvoke("SpawnObstacle");
+            CancelInvoke("SpawnStyle2");
         }
     }
 }

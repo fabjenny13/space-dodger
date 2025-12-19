@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2676143116229491649, guid: 4b4137a1d55c2954b8ad958b69ffa029, type: 3}
       propertyPath: m_Name
-      value: Obstacle (1) Variant
+      value: Obstacle2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350422362371357755, guid: 4b4137a1d55c2954b8ad958b69ffa029, type: 3}
+      propertyPath: m_BodyType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8712629045205625883, guid: 4b4137a1d55c2954b8ad958b69ffa029, type: 3}
       propertyPath: m_Color.b
