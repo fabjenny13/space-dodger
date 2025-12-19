@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnObstacle : MonoBehaviour
 {
-    int totalObstacles = 100;
-    int spawned = 0;
-
+    [SerializeField]
+    float spawnTime;
 
     float leftBound, rightBound, topBound, bottomBound;
 
@@ -27,6 +27,14 @@ public class SpawnObstacle : MonoBehaviour
         StartCoroutine(SpawnObstacles());
     }
 
+    private void Update()
+    {
+        if(playerTransform.gameObject.GetComponent<Rocket>().isGameOver)
+        {
+            StopAllCoroutines();
+        }
+    }
+
 
     IEnumerator SpawnObstacles()
     {
@@ -35,26 +43,34 @@ public class SpawnObstacle : MonoBehaviour
         {
             //x - m * xp + c  
 
-            Vector3 velocity = new Vector3(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(-4f, 4f), 0.0f);
+            Vector3 velocity;
             Vector3 position;
+
+            float vertical = topBound;
+            float horizontal = leftBound;
 
 
             switch(pickSide)
             {
                 case 0:
-                    position = new Vector3(UnityEngine.Random.Range(leftBound, rightBound), topBound, 0.0f);
+                    position = new Vector3(horizontal, topBound, 0.0f);
+                    velocity = new Vector3(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(-4f, 0f), 0.0f);
                     break;
                 case 1:
-                    position = new Vector3(UnityEngine.Random.Range(leftBound, rightBound), topBound, 0.0f);
+                    position = new Vector3(horizontal, bottomBound, 0.0f);
+                    velocity = new Vector3(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(0, 4f), 0.0f);
                     break;
                 case 2:
-                    position = new Vector3(leftBound, UnityEngine.Random.Range(bottomBound, topBound), 0.0f);
+                    position = new Vector3(leftBound, vertical, 0.0f);
+                    velocity = new Vector3(UnityEngine.Random.Range(0, 4f), UnityEngine.Random.Range(-4f, 4f), 0.0f);
                     break;
                 case 3:
-                    position = new Vector3(rightBound, UnityEngine.Random.Range(bottomBound, topBound), 0.0f);
+                    position = new Vector3(rightBound, vertical);
+                    velocity = new Vector3(UnityEngine.Random.Range(-4f, 0), UnityEngine.Random.Range(-4f, 4f), 0.0f);
                     break;
                 default:
-                    position = new Vector3(leftBound, UnityEngine.Random.Range(bottomBound, topBound), 0.0f);
+                    position = new Vector3(leftBound, vertical, 0.0f);
+                    velocity = new Vector3(UnityEngine.Random.Range(0, 4f), UnityEngine.Random.Range(-4f, 4f), 0.0f);
                     break;
 
             }
@@ -62,18 +78,29 @@ public class SpawnObstacle : MonoBehaviour
             pickSide += 1;
             pickSide %= 4;
 
-            Vector3 directionToPlayer = playerTransform.position - position;
+            vertical -= 1;
+            if(vertical <= bottomBound)
+            {
+                vertical = topBound;
+            }
+
+            horizontal += 1;
+            if(horizontal >= rightBound)
+            {
+                horizontal = leftBound;
+            }
+
+/*            Vector3 directionToPlayer = playerTransform.position - position;
             Vector3 normalizedDirection = directionToPlayer.normalized;
             Vector3 targetVelocity = normalizedDirection * velocity.magnitude;
 
+*/            
             GameObject newObstacle = Instantiate(obstacle);
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
-            newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
+            newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
 
-            spawned++;
-
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(spawnTime);
         }
     }
 }

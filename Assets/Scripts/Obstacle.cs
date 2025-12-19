@@ -19,6 +19,11 @@ public class Obstacle : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if(FindFirstObjectByType<Rocket>().isGameOver)
+        {
+            Destroy(gameObject);
+        }
     }
 
 
