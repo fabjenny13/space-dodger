@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9dc371b866c9f4c802b33268ddd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 0.4
+  spawnTime: 3
+  spawnDelay: 0.6
   obstacle: {fileID: 5365430673740321400, guid: 4a25416ecc4131149a2e1819ee19cd01, type: 3}
   playerTransform: {fileID: 1900199015}
 --- !u!4 &98161231
@@ -498,7 +499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9dc371b866c9f4c802b33268ddd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 0.8
+  spawnTime: 2
+  spawnDelay: 0.8
   obstacle: {fileID: 1277357585987317881, guid: eed5bae4d71f6934ca86c1a277b59010, type: 3}
   playerTransform: {fileID: 1900199015}
 --- !u!4 &530877824
@@ -957,7 +959,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9dc371b866c9f4c802b33268ddd02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 0.6
+  spawnTime: 1
+  spawnDelay: 0.5
   obstacle: {fileID: 2676143116229491649, guid: 4b4137a1d55c2954b8ad958b69ffa029, type: 3}
   playerTransform: {fileID: 1900199015}
 --- !u!4 &1179757192

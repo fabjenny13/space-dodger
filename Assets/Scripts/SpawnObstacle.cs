@@ -8,6 +8,8 @@ public class SpawnObstacle : MonoBehaviour
 {
     [SerializeField]
     float spawnTime;
+    [SerializeField]
+    float spawnDelay;
 
     float leftBound, rightBound, topBound, bottomBound;
 
@@ -17,6 +19,8 @@ public class SpawnObstacle : MonoBehaviour
     Transform playerTransform;
 
 
+    int currSide = 0;
+
     void Start()
     {
         leftBound = -8f;
@@ -24,23 +28,11 @@ public class SpawnObstacle : MonoBehaviour
         topBound = 8f;
         bottomBound = -8f;
 
-        StartCoroutine(SpawnObstacles());
+        InvokeRepeating("SpawnObstacles", spawnTime, spawnDelay);
     }
 
-    private void Update()
+    void SpawnObstacles()
     {
-        if(playerTransform.gameObject.GetComponent<Rocket>().isGameOver)
-        {
-            StopAllCoroutines();
-        }
-    }
-
-
-    IEnumerator SpawnObstacles()
-    {
-        int pickSide = 0;
-        while (true)
-        {
             //x - m * xp + c  
 
             Vector3 velocity;
@@ -50,7 +42,7 @@ public class SpawnObstacle : MonoBehaviour
             float horizontal = leftBound;
 
 
-            switch(pickSide)
+            switch(currSide)
             {
                 case 0:
                     position = new Vector3(horizontal, topBound, 0.0f);
@@ -75,8 +67,8 @@ public class SpawnObstacle : MonoBehaviour
 
             }
 
-            pickSide += 1;
-            pickSide %= 4;
+            currSide += 1;
+            currSide %= 4;
 
             vertical -= 1;
             if(vertical <= bottomBound)
@@ -99,8 +91,9 @@ public class SpawnObstacle : MonoBehaviour
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
-
-            yield return new WaitForSeconds(spawnTime);
+        if (playerTransform.gameObject.GetComponent<Rocket>().isGameOver)
+        {
+            CancelInvoke("SpawnObstacle");
         }
     }
 }
