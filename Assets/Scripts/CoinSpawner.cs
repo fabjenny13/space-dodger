@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    [SerializeField]
+    private GameObject Coin;
+
+    public void SpawnCoin()
     {
-        
+        Instantiate(Coin);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class Rocket : MonoBehaviour
     [SerializeField] private GameObject GameOverText;
 
     public bool isGameOver = false;
+
+
 
     public void TakeDamage()
     {
@@ -44,10 +47,20 @@ public class Rocket : MonoBehaviour
         mousePos.z = -Camera.main.transform.position.z;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        transform.position = Vector2.Lerp(transform.position, mousePos, moveSpeed);
+        Vector3 newPos = Vector2.Lerp(transform.position, mousePos, moveSpeed);
+
+        float zDistance = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
+        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
+
+        // Clamp to camera view
+        newPos.x = Mathf.Clamp(newPos.x, bottomLeft.x, topRight.x);
+        newPos.y = Mathf.Clamp(newPos.y, bottomLeft.y, topRight.y);
+
+        transform.position = newPos;
 
     }
 
 
-    
+
 }

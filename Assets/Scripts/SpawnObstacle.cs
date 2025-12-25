@@ -27,11 +27,11 @@ public class SpawnObstacle : MonoBehaviour
         bottomBound = bounds.position.y - bounds.localScale.y / 2.0f;
 
         if (spawnStyle == 1)
-            InvokeRepeating("SpawnStyle1", 1, 0.7f);
+            InvokeRepeating("SpawnStyle1", 1, 2f);
         else if (spawnStyle == 2)
-            InvokeRepeating("SpawnStyle2", 2, 10f);
+            InvokeRepeating("SpawnStyle2", 5, 20f);
         else if (spawnStyle == 3)
-            InvokeRepeating("SpawnStyle3", 3, 15f);
+            InvokeRepeating("SpawnStyle3", 10, 40f);
     }
 
     void SpawnStyle1()
@@ -41,59 +41,50 @@ public class SpawnObstacle : MonoBehaviour
             Vector3 velocity;
             Vector3 position;
 
-            float vertical = topBound;
-            float horizontal = leftBound;
 
+        for (int i = 0; i < 5; i++)
+        {
+            float disp = Mathf.Sin(i * 20);
 
-            switch(currSide)
+            switch (currSide)
             {
                 case 0:
-                    position = new Vector3(horizontal, topBound, 0.0f);
-                    velocity = new Vector3(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(-4f, 0f), 0.0f);
+                    disp *= (rightBound - leftBound);
+                    position = new Vector3(leftBound + disp, topBound, 0.0f);
+                    velocity = new Vector3(UnityEngine.Random.Range(-speed, speed), -speed, 0.0f);
                     break;
                 case 1:
-                    position = new Vector3(horizontal, bottomBound, 0.0f);
-                    velocity = new Vector3(UnityEngine.Random.Range(-4f, 4f), UnityEngine.Random.Range(0, 4f), 0.0f);
+                    disp *= (rightBound - leftBound);
+                    position = new Vector3(leftBound + disp, bottomBound, 0.0f);
+                    velocity = new Vector3(UnityEngine.Random.Range(-speed, speed), speed, 0.0f);
                     break;
                 case 2:
-                    position = new Vector3(leftBound, vertical, 0.0f);
-                    velocity = new Vector3(UnityEngine.Random.Range(0, 4f), UnityEngine.Random.Range(-4f, 4f), 0.0f);
+                    disp *= (topBound - bottomBound);
+                    position = new Vector3(leftBound, bottomBound + disp, 0.0f);
+                    velocity = new Vector3(speed, UnityEngine.Random.Range(-speed, speed), 0.0f);
                     break;
                 case 3:
-                    position = new Vector3(rightBound, vertical);
-                    velocity = new Vector3(UnityEngine.Random.Range(-4f, 0), UnityEngine.Random.Range(-4f, 4f), 0.0f);
+                    disp *= (topBound - bottomBound);
+                    position = new Vector3(rightBound, bottomBound + disp);
+                    velocity = new Vector3(-speed, UnityEngine.Random.Range(-speed, speed), 0.0f);
                     break;
                 default:
-                    position = new Vector3(leftBound, vertical, 0.0f);
-                    velocity = new Vector3(UnityEngine.Random.Range(0, 4f), UnityEngine.Random.Range(-4f, 4f), 0.0f);
+                    disp *= (topBound - bottomBound);
+                    position = new Vector3(leftBound, bottomBound + disp, 0.0f);
+                    velocity = new Vector3(speed, UnityEngine.Random.Range(-speed, speed), 0.0f);
                     break;
 
             }
-
-            currSide += 1;
-            currSide %= 4;
-
-            vertical -= 1;
-            if(vertical <= bottomBound)
-            {
-                vertical = topBound;
-            }
-
-            horizontal += 1;
-            if(horizontal >= rightBound)
-            {
-                horizontal = leftBound;
-            }
-
-        Vector3 directionToPlayer = playerTransform.position - position;
-        Vector3 normalizedDirection = directionToPlayer.normalized;
-        Vector3 targetVelocity = normalizedDirection * velocity.magnitude;
-
-
-        GameObject newObstacle = Instantiate(obstacle);
+            GameObject newObstacle = Instantiate(obstacle);
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
-            newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
+            newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
+
+
+        }
+
+        currSide += 1;
+        currSide %= 4;
 
 
         if(FindFirstObjectByType<Rocket>().isGameOver)
@@ -106,7 +97,7 @@ public class SpawnObstacle : MonoBehaviour
     {
         //circle style!
         float angleBetween = 36.0f;
-        float radius = (rightBound - leftBound) / 2 - 2;
+        float radius = (rightBound - leftBound) / 2;
         Vector2 center = bounds.position;
         for (int i = 0; i < 10; i++)
         {
@@ -115,7 +106,6 @@ public class SpawnObstacle : MonoBehaviour
             Vector3 direction = center - position;
             Vector3 targetVelocity = direction.normalized * speed;
 
-            Debug.Log(targetVelocity);
 
             GameObject newObstacle = Instantiate(obstacle);
 
@@ -168,7 +158,8 @@ public class SpawnObstacle : MonoBehaviour
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
         }
-
+        currSide += 1;
+        currSide %= 4;
         if (FindFirstObjectByType<Rocket>().isGameOver)
         {
             CancelInvoke("SpawnStyle3");
