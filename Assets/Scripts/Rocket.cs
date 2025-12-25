@@ -7,8 +7,8 @@ public class Rocket : MonoBehaviour
     Vector3 mousePos;
     float moveSpeed = 5.0f;
 
-    float maxHealth = 200.0f;
-    float health = 200.0f;
+    float maxHealth;
+    float health;
 
     [SerializeField]
     private Image healthBar;
@@ -28,14 +28,16 @@ public class Rocket : MonoBehaviour
 
         else
         {
-            health -= 20;
-            healthBar.rectTransform.sizeDelta = new Vector2((health / maxHealth) * 200, healthBar.GetComponent<RectTransform>().rect.height);
+            health -= 0.1f * maxHealth;
+            healthBar.rectTransform.sizeDelta = new Vector2(health, healthBar.GetComponent<RectTransform>().rect.height);
         }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        maxHealth = healthBar.transform.localScale.x;
+        health = maxHealth;
         GameOverText.SetActive(false);
     }
 

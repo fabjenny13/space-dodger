@@ -12,7 +12,6 @@ public class SpawnObstacle : MonoBehaviour
     [SerializeField] private int spawnStyle;
     [SerializeField] float speed;
     [SerializeField] Transform playerTransform;
-    [SerializeField] Transform bounds;
 
     private float leftBound, rightBound, topBound, bottomBound;
     private int currSide = 0;
@@ -21,10 +20,14 @@ public class SpawnObstacle : MonoBehaviour
 
     void Start()
     {
-        leftBound = bounds.position.x - bounds.localScale.x/2.0f;
-        rightBound = bounds.position.x + bounds.localScale.x / 2.0f;
-        topBound = bounds.position.y + bounds.localScale.y / 2.0f;
-        bottomBound = bounds.position.y - bounds.localScale.y / 2.0f;
+        float zDistance = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
+        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
+
+        leftBound = bottomLeft.x;
+        rightBound = topRight.x;
+        topBound = topRight.y;
+        bottomBound = bottomLeft.y;
 
         if (spawnStyle == 1)
             InvokeRepeating("SpawnStyle1", 1, 2f);
@@ -98,7 +101,7 @@ public class SpawnObstacle : MonoBehaviour
         //circle style!
         float angleBetween = 36.0f;
         float radius = (rightBound - leftBound) / 2;
-        Vector2 center = bounds.position;
+        Vector2 center = new Vector2(0,0);
         for (int i = 0; i < 10; i++)
         {
 

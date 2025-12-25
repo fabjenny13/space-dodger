@@ -1,18 +1,31 @@
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
 
     private float speed = 5.0f;
-    private float leftBound = -8.0f;
-    private float rightBound = 8.0f;
-    private float topBound = 8.0f;
-    private float bottomBound = -8.0f;
+    private float leftBound;
+    private float rightBound;
+    private float topBound;
+    private float bottomBound;
 
     [SerializeField]
     Rigidbody2D rb;
 
+    private void Start()
+    {
+        float zDistance = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
+        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
+
+        leftBound = bottomLeft.x;
+        rightBound = topRight.x;
+        topBound = topRight.y;
+        bottomBound = bottomLeft.y;
+
+    }
     private void Update()
     {
         if(transform.position.x < leftBound || transform.position.x > rightBound || transform.position.y > topBound || transform.position.y < bottomBound)
