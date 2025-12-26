@@ -29,14 +29,17 @@ public class Rocket : MonoBehaviour
         else
         {
             health -= 0.1f * maxHealth;
-            healthBar.rectTransform.sizeDelta = new Vector2(health, healthBar.GetComponent<RectTransform>().rect.height);
+            healthBar.rectTransform.sizeDelta = new Vector2((health/maxHealth) * healthBar.GetComponent<RectTransform>().rect.width, healthBar.GetComponent<RectTransform>().rect.height);
+            Debug.Log(maxHealth);
+            Debug.Log(health);
+
         }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        maxHealth = healthBar.transform.localScale.x;
+        maxHealth = 100f;
         health = maxHealth;
         GameOverText.SetActive(false);
     }
