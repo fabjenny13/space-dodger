@@ -25,6 +25,7 @@ public class Obstacle : MonoBehaviour
         topBound = topRight.y;
         bottomBound = bottomLeft.y;
 
+
     }
     private void Update()
     {

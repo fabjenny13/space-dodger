@@ -32,7 +32,7 @@ public class SpawnObstacle : MonoBehaviour
         if (spawnStyle == 1)
             InvokeRepeating("SpawnStyle1", 1, 2f);
         else if (spawnStyle == 2)
-            InvokeRepeating("SpawnStyle2", 5, 20f);
+            InvokeRepeating("SpawnStyle2", 1, 20f);
         else if (spawnStyle == 3)
             InvokeRepeating("SpawnStyle3", 10, 40f);
     }
@@ -57,6 +57,7 @@ public class SpawnObstacle : MonoBehaviour
                     velocity = new Vector3(UnityEngine.Random.Range(-speed, speed), -speed, 0.0f);
                     break;
                 case 1:
+
                     disp *= (rightBound - leftBound);
                     position = new Vector3(leftBound + disp, bottomBound, 0.0f);
                     velocity = new Vector3(UnityEngine.Random.Range(-speed, speed), speed, 0.0f);
@@ -104,7 +105,6 @@ public class SpawnObstacle : MonoBehaviour
         Vector2 center = new Vector2(0,0);
         for (int i = 0; i < 10; i++)
         {
-
             Vector2 position = new Vector2(radius * Mathf.Cos(i * angleBetween), radius * Mathf.Sin(i * angleBetween));
             Vector3 direction = center - position;
             Vector3 targetVelocity = direction.normalized * speed;
@@ -114,6 +114,8 @@ public class SpawnObstacle : MonoBehaviour
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
+            Debug.Log(newObstacle.transform.position);
+
         }
 
 
