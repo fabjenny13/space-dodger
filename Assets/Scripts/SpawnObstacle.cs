@@ -47,7 +47,7 @@ public class SpawnObstacle : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            float disp = Mathf.Sin(i * 20);
+            float disp = Mathf.Sin(i * 20 * Mathf.Deg2Rad);
 
             switch (currSide)
             {
@@ -57,7 +57,6 @@ public class SpawnObstacle : MonoBehaviour
                     velocity = new Vector3(UnityEngine.Random.Range(-speed, speed), -speed, 0.0f);
                     break;
                 case 1:
-
                     disp *= (rightBound - leftBound);
                     position = new Vector3(leftBound + disp, bottomBound, 0.0f);
                     velocity = new Vector3(UnityEngine.Random.Range(-speed, speed), speed, 0.0f);
@@ -83,6 +82,7 @@ public class SpawnObstacle : MonoBehaviour
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
+            Debug.Log(position);
 
 
         }
@@ -101,7 +101,7 @@ public class SpawnObstacle : MonoBehaviour
     {
         //circle style!
         float angleBetween = 36.0f;
-        float radius = (rightBound - leftBound) / 2;
+        float radius = Mathf.Max((rightBound - leftBound) / 2, (topBound - bottomBound) / 2);
         Vector2 center = new Vector2(0,0);
         for (int i = 0; i < 10; i++)
         {
@@ -114,7 +114,6 @@ public class SpawnObstacle : MonoBehaviour
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
-            Debug.Log(newObstacle.transform.position);
 
         }
 

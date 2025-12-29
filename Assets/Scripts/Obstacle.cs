@@ -11,6 +11,7 @@ public class Obstacle : MonoBehaviour
     private float topBound;
     private float bottomBound;
 
+
     [SerializeField]
     Rigidbody2D rb;
 
@@ -20,10 +21,10 @@ public class Obstacle : MonoBehaviour
         Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
         Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
 
-        leftBound = bottomLeft.x;
-        rightBound = topRight.x;
-        topBound = topRight.y;
-        bottomBound = bottomLeft.y;
+        leftBound = 2 * bottomLeft.x;
+        rightBound = 2 * topRight.x;
+        topBound = 2 * topRight.y;
+        bottomBound = 2 * bottomLeft.y;
 
 
     }

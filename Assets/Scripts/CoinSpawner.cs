@@ -3,9 +3,6 @@ using UnityEngine;
 public class CoinSpawner : MonoBehaviour
 {
 
-    [SerializeField]
-    private GameObject Coin;
-
     private float leftBound, rightBound, topBound, bottomBound;
 
 
@@ -20,10 +17,24 @@ public class CoinSpawner : MonoBehaviour
         topBound = topRight.y;
         bottomBound = bottomLeft.y;
 
+        Relocate();
+
     }
-    public void SpawnCoin()
+    public void Relocate()
     {
-        Instantiate(Coin);
+        float xPos = Random.Range(leftBound, rightBound);
+        float yPos = Random.Range(bottomBound, topBound);
+        transform.position = new Vector3(xPos, yPos);
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Player")
+        {
+            Debug.Log("Collided");
+            Relocate();
+        }
     }
 
 
