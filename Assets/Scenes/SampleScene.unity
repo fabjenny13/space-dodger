@@ -893,6 +893,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7103178086052428482, guid: e6626f051dd29c5489159ac1329a512b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 350791727716463907, guid: e6626f051dd29c5489159ac1329a512b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.97
@@ -937,10 +941,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Reward
       objectReference: {fileID: 0}
+    - target: {fileID: 8886602299003363162, guid: e6626f051dd29c5489159ac1329a512b, type: 3}
+      propertyPath: pointsTracker
+      value: 
+      objectReference: {fileID: 1715770684}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1134387529199306853, guid: e6626f051dd29c5489159ac1329a512b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1252504830}
   m_SourcePrefab: {fileID: 100100000, guid: e6626f051dd29c5489159ac1329a512b, type: 3}
 --- !u!1 &935319720
 GameObject:
@@ -1153,6 +1164,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1252504824 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1134387529199306853, guid: e6626f051dd29c5489159ac1329a512b, type: 3}
+  m_PrefabInstance: {fileID: 920113307}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1252504830
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252504824}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1651422305
 GameObject:
   m_ObjectHideFlags: 0

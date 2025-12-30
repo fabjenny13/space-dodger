@@ -23,6 +23,11 @@ public class PointsTracker : MonoBehaviour
         }
     }
 
+    public void AddBonusPoints(int val)
+    {
+        points += val;
+        text.text = "Score: " + points.ToString();
+    }
     IEnumerator IncreaseScore()
     {
         while (true)

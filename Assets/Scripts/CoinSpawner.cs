@@ -5,6 +5,8 @@ public class CoinSpawner : MonoBehaviour
 
     private float leftBound, rightBound, topBound, bottomBound;
 
+    [SerializeField] PointsTracker pointsTracker; 
+
 
     private void Start()
     {
@@ -28,14 +30,14 @@ public class CoinSpawner : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("Collided");
             Relocate();
+            pointsTracker.AddBonusPoints(100);
         }
-    }
 
+    }
 
 }

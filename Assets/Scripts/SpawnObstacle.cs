@@ -82,7 +82,6 @@ public class SpawnObstacle : MonoBehaviour
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
-            Debug.Log(position);
 
 
         }

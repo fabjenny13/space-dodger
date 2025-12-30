@@ -23,6 +23,7 @@ public class Rocket : MonoBehaviour
         if (health <= 0)
         {
             isGameOver = true;
+            gameObject.GetComponent<Animator>().StopPlayback();
             GameOverText.SetActive(true);
         }
 
