@@ -9,12 +9,14 @@ public class Rocket : MonoBehaviour
 
     float maxHealth;
     float health;
+    private float healthBarWidth;
 
     [SerializeField]
     private Image healthBar;
     [SerializeField] private GameObject GameOverText;
 
     public bool isGameOver = false;
+    
 
 
 
@@ -23,14 +25,13 @@ public class Rocket : MonoBehaviour
         if (health <= 0)
         {
             isGameOver = true;
-            gameObject.GetComponent<Animator>().StopPlayback();
             GameOverText.SetActive(true);
         }
 
         else
         {
             health -= 0.1f * maxHealth;
-            healthBar.rectTransform.sizeDelta = new Vector2((health/maxHealth) * healthBar.GetComponent<RectTransform>().rect.width, healthBar.GetComponent<RectTransform>().rect.height);
+            healthBar.rectTransform.sizeDelta = new Vector2((health/maxHealth) * healthBarWidth, healthBar.GetComponent<RectTransform>().rect.height);
 
         }
     }
@@ -41,6 +42,7 @@ public class Rocket : MonoBehaviour
         maxHealth = 100f;
         health = maxHealth;
         GameOverText.SetActive(false);
+        healthBarWidth = healthBar.GetComponent<RectTransform>().rect.width;
     }
 
     // Update is called once per frame

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PointsTracker : MonoBehaviour
 {
 
-    int points = 0;
+    public int points = 0;
 
     public TextMeshProUGUI text;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

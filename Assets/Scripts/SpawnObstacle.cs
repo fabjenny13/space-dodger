@@ -8,18 +8,23 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class SpawnObstacle : MonoBehaviour
 {
-    [SerializeField] private GameObject obstacle;
-    [SerializeField] private int spawnStyle;
     [SerializeField] float speed;
     [SerializeField] Transform playerTransform;
+    [SerializeField] PointsTracker pointsTracker;
+    [SerializeField] int randomSeed = 12345;
+
+
+    public GameObject[] obstacles;
 
     private float leftBound, rightBound, topBound, bottomBound;
     private int currSide = 0;
 
 
-
     void Start()
     {
+
+        UnityEngine.Random.InitState(randomSeed);
+
         float zDistance = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
         Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
         Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
@@ -29,12 +34,7 @@ public class SpawnObstacle : MonoBehaviour
         topBound = topRight.y;
         bottomBound = bottomLeft.y;
 
-        if (spawnStyle == 1)
-            InvokeRepeating("SpawnStyle1", 1, 2f);
-        else if (spawnStyle == 2)
-            InvokeRepeating("SpawnStyle2", 1, 20f);
-        else if (spawnStyle == 3)
-            InvokeRepeating("SpawnStyle3", 10, 40f);
+        InvokeRepeating("SpawnStyle1", 1, 2f);
     }
 
     void SpawnStyle1()
@@ -45,9 +45,7 @@ public class SpawnObstacle : MonoBehaviour
             Vector3 position;
 
 
-        for (int i = 0; i < 5; i++)
-        {
-            float disp = Mathf.Sin(i * 20 * Mathf.Deg2Rad);
+            float disp = Mathf.Sin(UnityEngine.Random.Range(0,5)* 20 * Mathf.Deg2Rad);
 
             switch (currSide)
             {
@@ -78,13 +76,13 @@ public class SpawnObstacle : MonoBehaviour
                     break;
 
             }
-            GameObject newObstacle = Instantiate(obstacle);
+            GameObject newObstacle = Instantiate(obstacles[0]);
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
 
 
-        }
+        
 
         currSide += 1;
         currSide %= 4;
@@ -98,6 +96,7 @@ public class SpawnObstacle : MonoBehaviour
 
     void SpawnStyle2()
     {
+
         //circle style!
         float angleBetween = 36.0f;
         float radius = Mathf.Max((rightBound - leftBound) / 2, (topBound - bottomBound) / 2);
@@ -109,7 +108,7 @@ public class SpawnObstacle : MonoBehaviour
             Vector3 targetVelocity = direction.normalized * speed;
 
 
-            GameObject newObstacle = Instantiate(obstacle);
+            GameObject newObstacle = Instantiate(obstacles[1]);
 
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(targetVelocity);
@@ -129,7 +128,7 @@ public class SpawnObstacle : MonoBehaviour
 
         for(int i = 0; i < 10; i++)
         {
-            GameObject newObstacle = Instantiate(obstacle);
+            GameObject newObstacle = Instantiate(obstacles[2]);
 
             Vector2 position, velocity;
 
