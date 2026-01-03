@@ -32,7 +32,7 @@ public class PointsTracker : MonoBehaviour
     {
         while (true)
         {
-            points += 10;
+            points += 1;
             text.text = "Score: " + points.ToString();
             yield return new WaitForSeconds(1);
 

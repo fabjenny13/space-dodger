@@ -14,14 +14,16 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     private Image healthBar;
     [SerializeField] private GameObject GameOverText;
+    private AudioSource audioSrc;
 
-    public bool isGameOver = false;
+    public bool isGameOver;
     
 
 
 
     public void TakeDamage()
     {
+        audioSrc.PlayOneShot(audioSrc.clip);
         if (health <= 0)
         {
             isGameOver = true;
@@ -39,31 +41,41 @@ public class Rocket : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        isGameOver = false;
         maxHealth = 100f;
         health = maxHealth;
         GameOverText.SetActive(false);
         healthBarWidth = healthBar.GetComponent<RectTransform>().rect.width;
+        audioSrc = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        mousePos = Input.mousePosition;
+        if (isGameOver)
+        {
+            //maek rocket ded
+        }
+        else
+        {
 
-        mousePos.z = -Camera.main.transform.position.z;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            mousePos = Input.mousePosition;
 
-        Vector3 newPos = Vector2.Lerp(transform.position, mousePos, moveSpeed);
+            mousePos.z = -Camera.main.transform.position.z;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        float zDistance = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
-        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
-        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
+            Vector3 newPos = Vector2.Lerp(transform.position, mousePos, moveSpeed);
 
-        // Clamp to camera view
-        newPos.x = Mathf.Clamp(newPos.x, bottomLeft.x, topRight.x);
-        newPos.y = Mathf.Clamp(newPos.y, bottomLeft.y, topRight.y);
+            float zDistance = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+            Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDistance));
+            Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
 
-        transform.position = newPos;
+            // Clamp to camera view
+            newPos.x = Mathf.Clamp(newPos.x, bottomLeft.x, topRight.x);
+            newPos.y = Mathf.Clamp(newPos.y, bottomLeft.y, topRight.y);
+
+            transform.position = newPos;
+        }
 
     }
 

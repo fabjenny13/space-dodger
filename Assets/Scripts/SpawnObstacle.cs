@@ -20,6 +20,8 @@ public class SpawnObstacle : MonoBehaviour
     private int currSide = 0;
 
 
+    int nextSpawnScore = 100;
+
     void Start()
     {
 
@@ -34,14 +36,26 @@ public class SpawnObstacle : MonoBehaviour
         topBound = topRight.y;
         bottomBound = bottomLeft.y;
 
-        InvokeRepeating("SpawnStyle1", 1, 2f);
+        InvokeRepeating("SpawnStyle1", 1, 1f);
     }
 
     void SpawnStyle1()
     {
             //x - m * xp + c  
+            
+            
+            if(nextSpawnScore % 500 == 0 && pointsTracker.points >= nextSpawnScore)
+            {
+                nextSpawnScore += 100;
+                SpawnStyle2();
+            }
+        else if (pointsTracker.points >= nextSpawnScore)
+        {
+            nextSpawnScore += 100;
+            SpawnStyle3();
+        }
 
-            Vector3 velocity;
+        Vector3 velocity;
             Vector3 position;
 
 

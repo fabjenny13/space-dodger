@@ -39,7 +39,8 @@ public class CoinSpawner : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Relocate();
-            pointsTracker.AddBonusPoints(100);
+            GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
+            pointsTracker.AddBonusPoints(50);
         }
     }
 }
