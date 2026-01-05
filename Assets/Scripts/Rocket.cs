@@ -70,8 +70,18 @@ public class Rocket : MonoBehaviour
             Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, zDistance));
 
             // Clamp to camera view
-            newPos.x = Mathf.Clamp(newPos.x, bottomLeft.x, topRight.x);
-            newPos.y = Mathf.Clamp(newPos.y, bottomLeft.y, topRight.y);
+
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            Vector2 halfSize = sr.bounds.extents;
+
+            newPos.x = Mathf.Clamp(newPos.x,
+                bottomLeft.x + halfSize.x,
+                topRight.x - halfSize.x);
+
+            newPos.y = Mathf.Clamp(newPos.y,
+                bottomLeft.y + halfSize.y,
+                topRight.y - halfSize.y);
+
 
             transform.position = newPos;
         }

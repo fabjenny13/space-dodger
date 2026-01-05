@@ -28,8 +28,12 @@ public class CoinSpawner : MonoBehaviour
 
     public void Relocate()
     {
-        float xPos = rng.NextFloat(leftBound, rightBound);
-        float yPos = rng.NextFloat(bottomBound, topBound);
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Vector2 halfSize = sr.bounds.extents;
+
+        float xPos = rng.NextFloat(leftBound + halfSize.x, rightBound - halfSize.x);
+        float yPos = rng.NextFloat(bottomBound + halfSize.y, topBound - halfSize.y);
 
         transform.position = new Vector3(xPos, yPos);
     }
