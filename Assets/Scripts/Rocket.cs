@@ -24,18 +24,17 @@ public class Rocket : MonoBehaviour
     public void TakeDamage()
     {
         audioSrc.PlayOneShot(audioSrc.clip);
+
+        health -= 0.1f * maxHealth;
+        healthBar.rectTransform.sizeDelta = new Vector2((health/maxHealth) * healthBarWidth, healthBar.GetComponent<RectTransform>().rect.height);
+
         if (health <= 0)
         {
             isGameOver = true;
             GameOverText.SetActive(true);
         }
 
-        else
-        {
-            health -= 0.1f * maxHealth;
-            healthBar.rectTransform.sizeDelta = new Vector2((health/maxHealth) * healthBarWidth, healthBar.GetComponent<RectTransform>().rect.height);
 
-        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
