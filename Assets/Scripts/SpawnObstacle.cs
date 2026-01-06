@@ -19,8 +19,8 @@ public class SpawnObstacle : MonoBehaviour
     private float leftBound, rightBound, topBound, bottomBound;
     private int currSide = 0;
 
+    int spawnIndex = 0;
 
-    int nextSpawnScore = 100;
 
     void Start()
     {
@@ -36,30 +36,35 @@ public class SpawnObstacle : MonoBehaviour
         topBound = topRight.y;
         bottomBound = bottomLeft.y;
 
-        InvokeRepeating("SpawnStyle1", 1, 1f);
+        StartCoroutine(SpawnRoutine());
     }
+
+
 
     void SpawnStyle1()
     {
-            //x - m * xp + c  
-            
-            
-            if(nextSpawnScore % 500 == 0 && pointsTracker.points >= nextSpawnScore)
-            {
-                nextSpawnScore += 100;
-                SpawnStyle2();
-            }
-        else if (pointsTracker.points >= nextSpawnScore)
+
+        if (spawnIndex % 20 == 0)
         {
-            nextSpawnScore += 100;
-            SpawnStyle3();
+            SpawnStyle2();   
+        }
+        else if (spawnIndex % 6 == 0)
+        {
+            SpawnStyle3();   
         }
 
+        spawnIndex++;
+
+
         Vector3 velocity;
-            Vector3 position;
+        Vector3 position;
 
 
-            float disp = Mathf.Sin(UnityEngine.Random.Range(0,5)* 20 * Mathf.Deg2Rad);
+        for (int i = 0; i < UnityEngine.Random.Range(1, 5); i++)
+        {
+            currSide = UnityEngine.Random.Range(0, 4);
+
+            float disp = Mathf.Sin(UnityEngine.Random.Range(0, 5) * 20 * Mathf.Deg2Rad);
 
             switch (currSide)
             {
@@ -96,16 +101,9 @@ public class SpawnObstacle : MonoBehaviour
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
 
 
-        
-
-        currSide += 1;
-        currSide %= 4;
-
-
-        if(FindFirstObjectByType<Rocket>().isGameOver)
-        {
-            CancelInvoke("SpawnStyle1");
         }
+
+
     }
 
     void SpawnStyle2()
@@ -138,9 +136,12 @@ public class SpawnObstacle : MonoBehaviour
 
     void SpawnStyle3()
     {
-        float displacement = ((rightBound - leftBound) / 10);
+        //straight line
+        int nObstacles = UnityEngine.Random.Range(5, 10);
+        currSide = UnityEngine.Random.Range(0, 4);
+        float displacement = ((rightBound - leftBound) / nObstacles);
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < nObstacles; i++)
         {
             GameObject newObstacle = Instantiate(obstacles[2]);
 
@@ -174,11 +175,23 @@ public class SpawnObstacle : MonoBehaviour
             newObstacle.GetComponent<Obstacle>().setLocation(position);
             newObstacle.GetComponent<Obstacle>().setVelocity(velocity);
         }
-        currSide += 1;
-        currSide %= 4;
+
         if (FindFirstObjectByType<Rocket>().isGameOver)
         {
             CancelInvoke("SpawnStyle3");
         }
     }
+
+
+    IEnumerator SpawnRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        while (!FindFirstObjectByType<Rocket>().isGameOver)
+        {
+            SpawnStyle1();
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
 }
+
